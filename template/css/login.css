@@ -1,0 +1,89 @@
+body {
+    font-family: "Roboto Condensed", sans-serif;
+    background-image: url('../../source/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.btn-primary {
+    background-color: rgb(182, 71, 82) !important;
+    border-color: rgb(182, 71, 82) !important;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: rgb(170, 18, 33) !important;
+    border-color: rgb(189, 3, 22) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(182, 71, 82, 0.3);
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: rgb(182, 71, 82);
+    box-shadow: 0 0 0 0.2rem rgba(182, 71, 82, 0.25);
+}
+
+h4 {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.alert {
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.text-center img {
+    transition: transform 0.3s ease;
+}
+
+.text-center img:hover {
+    transform: scale(1.05);
+} 

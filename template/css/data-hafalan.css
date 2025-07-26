@@ -1,0 +1,125 @@
+/* Panel Styles */
+.panel {
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.panel-heading {
+    background-color: #000000 !important;
+    color: white !important;
+    padding: 15px;
+    border-radius: 5px 5px 0 0;
+}
+
+.panel-body {
+    padding: 20px;
+    background-color: white;
+    border-radius: 0 0 5px 5px;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-radius: 5px 5px 0 0;
+    padding: 15px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Kelas Card Styles */
+.kelas-card {
+    border: 3px rgb(17, 85, 156);
+    border-radius: 0px;
+    background-color: #f8f9fa;
+    box-shadow: 3px 3px 12px rgb(177, 68, 77);
+    padding: 15px;
+}
+
+.kelas-card:hover {
+    background-color: #d1ecf1;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control:focus {
+    border-color: rgb(182, 71, 82);
+    box-shadow: 0 0 0 0.2rem rgba(182, 71, 82, 0.25);
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: rgb(182, 71, 82) !important;
+    border-color: rgb(182, 71, 82) !important;
+}
+
+.btn-primary:hover {
+    background-color: rgb(189, 3, 22) !important;
+    border-color: rgb(189, 3, 22) !important;
+}
+
+.btn-action {
+    margin-right: 5px;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.428571429;
+}
+
+/* Table Styles */
+.table-responsive {
+    margin-top: 15px;
+}
+
+.table > thead > tr > th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: bold;
+}
+
+.table > tbody > tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.table > tbody > tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Section Styles */
+.section-title {
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000000;
+    color: #000000;
+}
+
+/* Filter Form Styles */
+.filter-form {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Grid Layout */
+.col-lg-3, .col-md-4, .col-sm-6 {
+    margin-bottom: 20px;
+} 
