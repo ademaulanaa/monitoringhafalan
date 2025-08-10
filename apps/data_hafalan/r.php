@@ -185,9 +185,11 @@ $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d');
                                 $params[] = $start_date;
                                 $params[] = $end_date;
                                 $types .= "ss";
-                                $sql_tasmi .= " ORDER BY tanggal DESC";
-                            } else {
-                                $sql_tasmi .= " ORDER BY tanggal DESC LIMIT 10";
+                            }
+                            $sql_tasmi .= " ORDER BY tanggal DESC";
+                            
+                            if(!$start_date || !$end_date) {
+                                $sql_tasmi .= " LIMIT 10";
                             }
                             
             $stmt = mysqli_prepare($kon, $sql_tasmi);
@@ -210,6 +212,59 @@ $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d');
                                         <td><?php echo htmlspecialchars($data_tasmi['keterangan']); ?></td>
                                     </tr>
                                 <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Panel Riwayat Tahsin -->
+                    <div class="section-title">RIWAYAT TAHSIN</div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">No</th>
+                                    <th style="width: 15%">Tanggal Tahsin</th>
+                                    <th style="width: 10%">Jilid</th>
+                                    <th style="width: 10%">Halaman</th>
+                                    <th style="width: 10%">Status</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $sql_tahsin = "SELECT * FROM tbl_tahsin WHERE id_santri = ? ORDER BY tanggal DESC";
+                                if(!$start_date || !$end_date) {
+                                    $sql_tahsin .= " LIMIT 10";
+                                }
+                                
+                                $stmt = mysqli_prepare($kon, $sql_tahsin);
+                                if ($stmt) {
+                                    mysqli_stmt_bind_param($stmt, "i", $id_santri);
+                                    mysqli_stmt_execute($stmt);
+                                    $hasil_tahsin = mysqli_stmt_get_result($stmt);
+
+                                    $no = 1;
+                                    if ($hasil_tahsin && mysqli_num_rows($hasil_tahsin) > 0) {
+                                        while ($data_tahsin = mysqli_fetch_assoc($hasil_tahsin)) :
+                                ?>
+                                    <tr>
+                                        <td class="text-center"><?php echo $no++; ?></td>
+                                        <td class="text-center"><?php echo date('d-m-Y', strtotime($data_tahsin['tanggal'])); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($data_tahsin['jilid']); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($data_tahsin['halaman']); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($data_tahsin['status']); ?></td>
+                                        <td><?php echo htmlspecialchars($data_tahsin['keterangan']); ?></td>
+                                    </tr>
+                                <?php 
+                                        endwhile; 
+                                    } else {
+                                        echo "<tr><td colspan='6' class='text-center'>Tidak ada data tahsin untuk ditampilkan.</td></tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='6' class='text-center'>Error dalam query tahsin.</td></tr>";
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -244,9 +299,11 @@ $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d');
                                     $params[] = $start_date;
                                     $params[] = $end_date;
                                     $types .= "ss";
-                                    $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC";
-                                } else {
-                                    $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC LIMIT 30";
+                                }
+                                $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC";
+                                
+                                if(!$start_date || !$end_date) {
+                                    $sql_hafalan .= " LIMIT 10";
                                 }
                                 
                                 $stmt = mysqli_prepare($kon, $sql_hafalan);
