@@ -364,7 +364,7 @@ if (isset($_GET['hapus_tasmi'])) {
                                 $types .= "ss";
                                 $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC";
                             } else {
-                                $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC LIMIT 10";
+                                $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC LIMIT 30";
                             }
                             
                             $stmt = mysqli_prepare($kon, $sql_hafalan);
