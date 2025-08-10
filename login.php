@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <link rel="shortcut icon" href="source/img/logo2.jpg">
     <!-- Title Website -->
-    <title>MONITORING HAFALAN PONDOK PESANTREN NURUL QUR'AN</title>
+    <title>MONITORING HAFALAN PESANTREN NURUL QUR'AN</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="apps/pengaturan/logo/<?php echo $logo; ?>">
     <!-- Required meta tags -->
@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <img src="source/img/logo2.jpg" alt="Logo Nurul Quran" width="120">
         </div>
         
-        <h4 class="text-center" style="line-height: 1.4; margin-bottom: 20px;">MONITORING HAFALAN<br>PONDOK PESANTREN NURUL QUR'AN</h4>
+        <h4 class="text-center" style="line-height: 1.4; margin-bottom: 20px;">MONITORING HAFALAN<br>PESANTREN NURUL QUR'AN</h4>
         
         <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
             <label for="info" class="text-muted">Silahkan Login</label>
