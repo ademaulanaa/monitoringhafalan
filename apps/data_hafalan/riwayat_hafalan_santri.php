@@ -97,6 +97,25 @@ if (isset($_GET['hapus_tasmi'])) {
 }
 
 
+
+// Hapus Data Tahsin
+if (isset($_GET['hapus_tahsin'])) {
+    $id_tahsin = intval($_GET['hapus_tahsin']);
+    $sql_delete = "DELETE FROM tbl_tahsin WHERE id_tahsin=?";
+    $stmt = mysqli_prepare($kon, $sql_delete);
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $id_tahsin);
+        if (mysqli_stmt_execute($stmt)) {
+            echo "<div class='alert alert-danger'>Riwayat tahsin berhasil dihapus.</div>";
+        } else {
+            echo "<div class='alert alert-danger'>Gagal menghapus riwayat tahsin: " . mysqli_error($kon) . "</div>";
+        }
+    } else {
+        echo "<div class='alert alert-danger'>Error dalam query: " . mysqli_error($kon) . "</div>";
+    }
+}
+
+
 ?>
 
 <style>
@@ -296,11 +315,13 @@ if (isset($_GET['hapus_tasmi'])) {
                             }
                             
             $stmt = mysqli_prepare($kon, $sql_tasmi);
+            if ($stmt) {
                             mysqli_stmt_bind_param($stmt, $types, ...$params);
             mysqli_stmt_execute($stmt);
             $hasil_tasmi = mysqli_stmt_get_result($stmt);
 
             $no = 1;
+                if ($hasil_tasmi && mysqli_num_rows($hasil_tasmi) > 0) {
             while ($data_tasmi = mysqli_fetch_assoc($hasil_tasmi)) :
             ?>
                 <tr>
@@ -322,10 +343,20 @@ if (isset($_GET['hapus_tasmi'])) {
                         </a>
                     </td>
                 </tr>
-            <?php endwhile; ?>
+            <?php 
+                    endwhile; 
+                } else {
+                    echo "<tr><td colspan='10' class='text-center'>Tidak ada data tasmi untuk ditampilkan.</td></tr>";
+                }
+            } else {
+                echo "<tr><td colspan='10' class='text-center'>Error dalam query tasmi.</td></tr>";
+            }
+            ?>
         </tbody>
     </table>
 </div>
+
+
 
                 <!-- Tabel Riwayat Hafalan -->
                 <div class="section-title">RIWAYAT HAFALAN</div>
@@ -364,15 +395,17 @@ if (isset($_GET['hapus_tasmi'])) {
                                 $types .= "ss";
                                 $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC";
                             } else {
-                                $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC LIMIT 30";
+                                $sql_hafalan .= " ORDER BY h.tgl_hafalan DESC LIMIT 10";
                             }
                             
                             $stmt = mysqli_prepare($kon, $sql_hafalan);
+                            if ($stmt) {
                             mysqli_stmt_bind_param($stmt, $types, ...$params);
                             mysqli_stmt_execute($stmt);
                             $hasil_hafalan = mysqli_stmt_get_result($stmt);
 
                             $no = 0;
+                                if ($hasil_hafalan && mysqli_num_rows($hasil_hafalan) > 0) {
                             while ($data_hafalan = mysqli_fetch_assoc($hasil_hafalan)) :
                                 $no++;
                             ?>
@@ -393,7 +426,82 @@ if (isset($_GET['hapus_tasmi'])) {
                                         </a>
                                     </td>
                                 </tr>
-                            <?php endwhile; ?>
+                            <?php 
+                                    endwhile; 
+                                } else {
+                                    echo "<tr><td colspan='8' class='text-center'>Tidak ada data hafalan untuk ditampilkan.</td></tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='8' class='text-center'>Error dalam query hafalan.</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tabel Riwayat Tahsin -->
+                <div class="section-title">RIWAYAT TAHSIN</div>
+                <div class="form-group">
+                <button type="button" class="btn btn-success" id="tombol_tambah_tahsin">
+                        <i class="fa fa-plus"></i> Tambah Tahsin
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%">No</th>
+                                <th style="width: 15%">Tanggal Tahsin</th>
+                                <th style="width: 10%">Jilid</th>
+                                <th style="width: 10%">Halaman</th>
+                                <th style="width: 10%">Status</th>
+                                <th style="width: 10%">Keterangan</th>
+                                <th style="width: 10%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sql_tahsin = "SELECT * FROM tbl_tahsin WHERE id_santri = ? ORDER BY tanggal DESC";
+                            if(!$start_date || !$end_date) {
+                                $sql_tahsin .= " LIMIT 10";
+                            }
+                            
+                            $stmt = mysqli_prepare($kon, $sql_tahsin);
+                            if ($stmt) {
+                                mysqli_stmt_bind_param($stmt, "i", $id_santri);
+                                mysqli_stmt_execute($stmt);
+                                $hasil_tahsin = mysqli_stmt_get_result($stmt);
+
+                                $no = 0;
+                                if ($hasil_tahsin && mysqli_num_rows($hasil_tahsin) > 0) {
+                                    while ($data_tahsin = mysqli_fetch_assoc($hasil_tahsin)) :
+                                        $no++;
+                            ?>
+                                <tr>
+                                    <td class="text-center"><?php echo $no; ?></td>
+                                    <td class="text-center"><?php echo date('d-m-Y', strtotime($data_tahsin['tanggal'])); ?></td>
+                                    <td class="text-center"><?php echo htmlspecialchars($data_tahsin['jilid']); ?></td>
+                                    <td class="text-center"><?php echo htmlspecialchars($data_tahsin['halaman']); ?></td>
+                                    <td class="text-center"><?php echo htmlspecialchars($data_tahsin['status']); ?></td>
+                                    <td class="text-center"><?php echo htmlspecialchars($data_tahsin['keterangan']); ?></td>
+                                    <td class="text-center text-nowrap">
+                                        <button id_tahsin="<?php echo $data_tahsin['id_tahsin']; ?>" class="tombol_edit_tahsin btn btn-warning btn-circle btn-sm">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <a href="apps/data_hafalan/hapus_tahsin.php?id_tahsin=<?php echo $data_tahsin['id_tahsin']; ?>" class="btn-hapus-tahsin btn btn-danger btn-circle btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php 
+                                    endwhile; 
+                                } else {
+                                    echo "<tr><td colspan='7' class='text-center'>Tidak ada data tahsin untuk ditampilkan.</td></tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='7' class='text-center'>Error dalam query tahsin.</td></tr>";
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -549,5 +657,36 @@ if (isset($_GET['hapus_tasmi'])) {
 
     $('.btn-hapus-tasmi').on('click', function () {
         return confirm("Konfirmasi sebelum menghapus data tasmi?");
+    });
+
+    $('#tombol_tambah_tahsin').on('click', function () {
+        $.ajax({
+            url: 'apps/data_hafalan/tambah_tahsin.php',
+            method: 'post',
+            data: { id_santri: <?php echo $id_santri; ?> },
+            success: function (data) {
+                $('#tampil_data').html(data);
+                document.getElementById("judul").innerHTML = 'Tambah Tahsin';
+                $('#modal').modal('show');
+            }
+        });
+    });
+
+    $('.tombol_edit_tahsin').on('click', function () {
+        var id_tahsin = $(this).attr("id_tahsin");
+        $.ajax({
+            url: 'apps/data_hafalan/edit_tahsin.php',
+            method: 'post',
+            data: { id_tahsin: id_tahsin },
+            success: function (data) {
+                $('#tampil_data').html(data);
+                document.getElementById("judul").innerHTML = 'Edit Tahsin';
+                $('#modal').modal('show');
+            }
+        });
+    });
+
+    $('.btn-hapus-tahsin').on('click', function () {
+        return confirm("Konfirmasi sebelum menghapus data tahsin?");
     });
 </script>
